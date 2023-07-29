@@ -16,7 +16,8 @@ impl Camera {
             look_at,
             look_at_right: Point3::new(1.0, 0.0, 0.0),
             view: Matrix4::look_at_rh(&position, &look_at, &Vector3::new(0.0, 0.0, 1.0)),
-            perspective: Matrix4::new_perspective(16.0/9.0, 90.0, 0.01, 1000.0),
+            //perspective: Matrix4::new_perspective(16.0/9.0, 90.0, 0.01, 1000.0),
+            perspective: Matrix4::new_orthographic(-4.0, 4.0, -4.0, 4.0, -0.01, 100.0),
             width: 1920,
             height: 1080,
         }
@@ -38,9 +39,11 @@ impl Camera {
 
     }
     pub fn resize(&mut self, width: u32, height: u32) {
-            self.perspective = Matrix4::new_perspective((width as f32)/(height as f32), 90.0, 0.01, 1000.0);
-            self.width = width;
-            self.height = height;
+        self.perspective = Matrix4::new_perspective((width as f32)/(height as f32), 90.0, 0.01, 1000.0);
+        let zoom = 200.0;
+            self.perspective = Matrix4::new_orthographic((width as f32 / -zoom), (width as f32 / zoom), (height as f32 / -zoom),(height as f32 / zoom), 0.01, 100.0);
+        self.width = width;
+        self.height = height;
     }
     pub fn view(&self) -> &Matrix4<f32> { 
         &self.view

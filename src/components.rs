@@ -39,6 +39,13 @@ impl Mesh {
 pub struct Velocity {
     pub velocity: Vector3<f32>,
 }
+impl Velocity {
+    pub fn new(velocity: Vector3<f32>) -> Self {
+        Self {
+            velocity: velocity,
+        }
+    }
+}
 #[derive(Debug)]
 pub struct Acceleration {
     pub acceleration: Vector3<f32>,

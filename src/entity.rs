@@ -20,9 +20,9 @@ impl Entity {
         scene.meshes.push(mesh);
         self.mesh = Some(scene.meshes.len() - 1);
     }
-    pub fn get_mesh<'a>(&self, scene: &'a Scene) -> Option<&'a Mesh> {
+    pub fn get_mesh<'a>(&self, scene: &'a mut Scene) -> Option<&'a mut Mesh> {
         if let Some(idx) = self.mesh {
-            return Some(&scene.meshes[idx]);
+            return Some(&mut scene.meshes[idx]);
         }
 
         None
@@ -33,9 +33,14 @@ impl Entity {
         }
         None
     }
-    pub fn get_velocity<'a>(&self, scene: &'a Scene) -> Option<&'a Velocity> {
+    pub fn add_velocity(&mut self, scene: &mut Scene, velocity: Vector3<f32>) {
+        let vel = Velocity {velocity: velocity};
+        scene.velocities.push(vel);
+        self.velocity = Some(scene.velocities.len() - 1);
+    }
+    pub fn get_velocity<'a>(&self, scene: &'a mut Scene) -> Option<&'a mut Velocity> {
         if let Some(idx) = self.velocity {
-            return Some(&scene.velocities[idx]);
+            return Some(&mut scene.velocities[idx]);
         }
 
         None
@@ -46,9 +51,14 @@ impl Entity {
         }
         None
     }
-    pub fn get_acceleration<'a>(&self, scene: &'a Scene) -> Option<&'a Acceleration> {
+    pub fn add_acceleration(&mut self, scene: &mut Scene, acceleration: Vector3<f32>) {
+        let acc = Acceleration {acceleration: acceleration};
+        scene.accelerations.push(acc);
+        self.acceleration = Some(scene.accelerations.len() - 1);
+    }
+    pub fn get_acceleration<'a>(&self, scene: &'a mut Scene) -> Option<&'a mut Acceleration> {
         if let Some(idx) = self.acceleration {
-            return Some(&scene.accelerations[idx]);
+            return Some(&mut scene.accelerations[idx]);
         }
 
         None
