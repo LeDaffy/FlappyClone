@@ -1,6 +1,7 @@
 use colored::Colorize;
 use gl::{self, types::*};
 use std::ffi::CString;
+use crate::renderer::texture::Texture;
 
 pub struct Shader {
     pub id: GLuint,
@@ -28,6 +29,16 @@ impl Shader {
         gl::UniformMatrix4fv(gl::GetUniformLocation(self.id, name.as_ptr()), 1, gl::FALSE, mat.as_ptr());
         }
     }
+    pub fn set_tex(&self, name: &str, tex: &Texture) {
+        let name = CString::new(name).unwrap();
+        unsafe {
+            //gl::Uniform1i(gl::GetUniformLocation(self.id, name.as_ptr()), tex.id as i32);
+            gl::ActiveTexture(gl::TEXTURE0);
+            gl::BindTexture(gl::TEXTURE_2D, tex.id);
+            gl::Uniform1i(gl::GetUniformLocation(self.id, name.as_ptr()), 0 as i32);
+            //gl::UniformMatrix4fv(gl::GetUniformLocation(self.id, name.as_ptr()), 1, gl::FALSE, mat.as_ptr());
+        }
+    }
     pub fn new(vs_path: &std::path::Path, fs_path: &std::path::Path) -> Shader {
         let vs_source = CString::new(std::fs::read_to_string(vs_path).unwrap()).unwrap();
         let vs = unsafe { gl::CreateShader(gl::VERTEX_SHADER) };
@@ -38,7 +49,7 @@ impl Shader {
                 1,
                 &(vs_source.as_ptr()) as *const *const GLchar,
                 std::ptr::null(),
-            );
+                );
             gl::CompileShader(vs);
         }
         Self::print_shader_compilation(vs, vs_path);
@@ -52,7 +63,7 @@ impl Shader {
                 1,
                 &(fs_source.as_ptr()) as *const *const GLchar,
                 std::ptr::null(),
-            );
+                );
             gl::CompileShader(fs);
         }
         Self::print_shader_compilation(fs, fs_path);
@@ -84,7 +95,7 @@ impl Shader {
                     1024,
                     std::ptr::null_mut(),
                     info_log.as_ptr() as *mut i8,
-                );
+                    );
             }
             let info_log = info_log.into_string().unwrap();
             info_log.split_whitespace().for_each(|w| match w {
@@ -115,7 +126,7 @@ impl Shader {
                     1024,
                     std::ptr::null_mut(),
                     info_log.as_ptr() as *mut i8,
-                );
+                    );
             }
             let info_log = info_log.into_string().unwrap();
             info_log.split_whitespace().for_each(|w| match w {

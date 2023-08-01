@@ -202,6 +202,8 @@ impl Renderer {
             self.update_buffer();
             // draw our first triangle
             gl::ClearColor(0.2, 0.3, 0.3, 1.0);
+            gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+            gl::Enable( gl::BLEND );
             gl::Enable(gl::DEPTH_TEST);
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
             //gl::DrawArrays(gl::TRIANGLES, 0, num_verts as i32);
@@ -217,6 +219,9 @@ impl Renderer {
     pub fn newrender(&mut self, scene: &Scene) {
         unsafe {
             gl::BindVertexArray(self.vao); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+            gl::Enable(gl::BLEND);
+            gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+
             gl::ClearColor(0.2, 0.3, 0.3, 1.0);
             gl::Enable(gl::DEPTH_TEST);
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);

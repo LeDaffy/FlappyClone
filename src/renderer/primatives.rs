@@ -67,10 +67,30 @@ impl Quad {
     pub fn new_square() -> Self {
         Self {
             verts: [
-                Vert::from_position([-1.0, 0.0, -1.0]),
-                Vert::from_position([1.0, 0.0, -1.0]),
-                Vert::from_position([1.0, 0.0, 1.0]),
-                Vert::from_position([-1.0, 0.0, 1.0]),
+                Vert::new(
+                    Point3::new(-16.0, 0.0, -16.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                    Point2::new(0.0, 0.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                ),
+                Vert::new(
+                    Point3::new(16.0, 0.0, -16.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                    Point2::new(1.0, 0.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                ),
+                Vert::new(
+                    Point3::new(16.0, 0.0, 16.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                    Point2::new(1.0, 1.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                ),
+                Vert::new(
+                    Point3::new(-16.0, 0.0, 16.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                    Point2::new(0.0, 1.0),
+                    Point3::new(0.0, 0.0, 0.0),
+                ),
             ],
             elements: [0, 1, 2, 0, 2, 3],
         }

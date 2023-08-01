@@ -47,17 +47,19 @@ impl Texture {
             gl::BindTexture(gl::TEXTURE_2D, id);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32); // set texture wrapping to GL_REPEAT (default wrapping method)
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::NEAREST as i32);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::NEAREST as i32);
             gl::TexImage2D(
                 gl::TEXTURE_2D,
                 0,
-                gl::RGB as i32,
+                gl::RGBA as i32,
                 reader.info().width as i32,
                 reader.info().height as i32,
                 0,
-                gl::RGB,
+                gl::RGBA,
                 gl::UNSIGNED_BYTE,
                 bytes.as_ptr() as *const std::ffi::c_void,
-            );
+                );
             gl::GenerateMipmap(gl::TEXTURE_2D);
         }
         Self {

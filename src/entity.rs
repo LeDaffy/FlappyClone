@@ -6,6 +6,8 @@ pub struct Entity{
     pub mesh: Option<usize>,
     pub velocity: Option<usize>,
     pub acceleration: Option<usize>,
+    pub rot_velocity: Option<usize>,
+    pub rot_acceleration: Option<usize>,
 }
 
 impl Entity {
@@ -14,6 +16,8 @@ impl Entity {
             mesh: None,
             velocity: None,
             acceleration: None,
+            rot_velocity: None,
+            rot_acceleration: None,
         }
     }
     pub fn add_mesh(&mut self, scene: &mut Scene, mesh: Mesh) {
@@ -47,6 +51,38 @@ impl Entity {
     }
     pub fn get_velocity_index(&self) -> Option<usize> {
         if let Some(idx) = self.velocity {
+            return Some(idx);
+        }
+        None
+    }
+    pub fn add_rot_velocity(&mut self, scene: &mut Scene, velocity: f32) {
+        scene.rot_velocities.push(velocity);
+        self.rot_velocity = Some(scene.velocities.len() - 1);
+    }
+    pub fn get_rot_velocity<'a>(&self, scene: &'a mut Scene) -> Option<&'a mut f32> {
+        if let Some(idx) = self.rot_velocity {
+            return Some(&mut scene.rot_velocities[idx]);
+        }
+        None
+    }
+    pub fn get_rot_velocity_index(&self) -> Option<usize> {
+        if let Some(idx) = self.rot_velocity {
+            return Some(idx);
+        }
+        None
+    }
+    pub fn add_rot_acceleration(&mut self, scene: &mut Scene, acceleration: f32) {
+        scene.rot_accelerations.push(acceleration);
+        self.rot_acceleration = Some(scene.accelerations.len() - 1);
+    }
+    pub fn get_rot_acceleration<'a>(&self, scene: &'a mut Scene) -> Option<&'a mut f32> {
+        if let Some(idx) = self.rot_acceleration {
+            return Some(&mut scene.rot_accelerations[idx]);
+        }
+        None
+    }
+    pub fn get_rot_acceleration_index(&self) -> Option<usize> {
+        if let Some(idx) = self.rot_acceleration {
             return Some(idx);
         }
         None

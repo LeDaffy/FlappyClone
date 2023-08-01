@@ -40,7 +40,7 @@ impl Camera {
     }
     pub fn resize(&mut self, width: u32, height: u32) {
         self.perspective = Matrix4::new_perspective((width as f32)/(height as f32), 90.0, 0.01, 1000.0);
-        let zoom = 200.0;
+        let zoom = 5.0;
             self.perspective = Matrix4::new_orthographic((width as f32 / -zoom), (width as f32 / zoom), (height as f32 / -zoom),(height as f32 / zoom), 0.01, 100.0);
         self.width = width;
         self.height = height;

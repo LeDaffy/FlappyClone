@@ -5,6 +5,8 @@ pub enum Component {
     Mesh(usize),
     Velocity(usize),
     Acceleration(usize),
+    RotVelocity(usize),
+    RotAcceleration(usize),
 }
 
 
@@ -29,6 +31,7 @@ impl Mesh {
                 v.pos = self.rotation * v.pos;
                 v.pos = self.scale * v.pos;
                 v.pos = self.translation * v.pos;
+                v.uv.y =  -1.0 * v.uv.y + 1.0;
                 v
             })
             .collect()
@@ -48,5 +51,20 @@ impl Velocity {
 }
 #[derive(Debug)]
 pub struct Acceleration {
+    pub acceleration: Vector3<f32>,
+}
+#[derive(Debug)]
+pub struct RotVelocity {
+    pub velocity: Vector3<f32>,
+}
+impl RotVelocity {
+    pub fn new(velocity: Vector3<f32>) -> Self {
+        Self {
+            velocity: velocity,
+        }
+    }
+}
+#[derive(Debug)]
+pub struct RotAcceleration {
     pub acceleration: Vector3<f32>,
 }
