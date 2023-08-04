@@ -65,11 +65,11 @@ impl Game {
         self.player
             .add_velocity(&mut self.scene, Vector3::new(0.0, 0.0, 2.0));
         self.player
-            .add_acceleration(&mut self.scene, Vector3::new(0.0, 0.0, -4.0));
+            .add_acceleration(&mut self.scene, Vector3::new(0.0, 0.0, -0.17));
         self.player
-            .add_rot_velocity(&mut self.scene, 10.0 * std::f32::consts::PI / 180.0);
+            .add_rot_velocity(&mut self.scene, 1.0 * std::f32::consts::PI / 180.0);
         self.player
-            .add_rot_acceleration(&mut self.scene, 5.0 * std::f32::consts::PI / 180.0);
+            .add_rot_acceleration(&mut self.scene, 0.1 * std::f32::consts::PI / 180.0);
         self.pipes.add_mesh(
             &mut self.scene,
             Mesh {
@@ -126,19 +126,20 @@ impl Game {
             .add_velocity(&mut self.scene, Vector3::new(-48.0, 0.0, 0.0));
     }
     pub fn handle_input(&mut self) {
-        if let Some(winit::event::ElementState::Pressed) =
+        if let Some((winit::event::ElementState::Pressed, winit::event::ElementState::Released)) =
             self.keymap.keys.get(&winit::event::VirtualKeyCode::Space)
         {
             self.player
                 .get_velocity(&mut self.scene)
                 .unwrap()
                 .velocity
-                .z = 400.0;
+                .z = 425.0;
             *self.player
                 .get_rot_velocity(&mut self.scene)
                 .unwrap()
                 = 0.0 * std::f32::consts::PI / 180.0;
             self.rot = -45.0 * std::f32::consts::PI / 180.0; 
+            self.keymap.keys.insert(winit::event::VirtualKeyCode::Space, (winit::event::ElementState::Released, winit::event::ElementState::Released));
         }
     }
     pub fn update(&mut self, _dt: std::time::Duration) {
@@ -174,7 +175,7 @@ impl Game {
             .z;
         *self.player.get_rot_velocity(&mut self.scene).unwrap() += *self.player.get_rot_acceleration(&mut self.scene).unwrap();
         self.rot += *self.player.get_rot_velocity(&mut self.scene).unwrap() * _dt.as_secs_f32();
-        self.rot = self.rot.clamp(-45.0 * std::f32::consts::PI / 180.0, 45.0 * std::f32::consts::PI / 180.0);
+        self.rot = self.rot.clamp(-90.0 * std::f32::consts::PI / 180.0, 90.0 * std::f32::consts::PI / 180.0);
         self.player.get_mesh(&mut self.scene).unwrap().rotation = Rotation3::new(Vector3::new(0.0, 1.0, 0.0) * self.rot);
 
         self.player.get_mesh(&mut self.scene).unwrap().translation.x += self

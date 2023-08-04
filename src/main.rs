@@ -37,10 +37,17 @@ fn main() {
                         modifiers: _,
                     }),
             } => {
-                flappy.keymap.keys.insert(
-                    keycode,
-                    state,
-                );
+                if let Some((current_state, _)) = flappy.keymap.keys.get(&keycode) {
+                    flappy.keymap.keys.insert(
+                        keycode,
+                        (state, *current_state),
+                        );
+                } else {
+                    flappy.keymap.keys.insert(
+                        keycode,
+                        (state, state),
+                        );
+                }
             }
             Event::WindowEvent {
                 event: WindowEvent::CloseRequested,

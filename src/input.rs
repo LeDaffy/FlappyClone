@@ -3,7 +3,7 @@ use winit;
 
 #[derive(Debug)]
 pub struct Keymap {
-    pub keys: HashMap<winit::event::VirtualKeyCode, winit::event::ElementState>
+    pub keys: HashMap<winit::event::VirtualKeyCode, (winit::event::ElementState, winit::event::ElementState)>
 }
 
 impl Keymap {
